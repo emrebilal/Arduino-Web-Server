@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <title>Arduino Web Page</title>
+  <style>
+    html {
+     font-family: Arial;
+     display: inline-block;
+     margin: 0px auto;
+     text-align: center;
+    }
+    h2 { font-size: 3.0rem; }
+    p { font-size: 3.0rem; }
+    .units { font-size: 1.2rem; }
+    .dht-labels{
+      font-size: 1.5rem;
+      vertical-align:middle;
+      padding-bottom: 15px;
+    }
+  </style>
+  <script>
+  function GetData()
+  {
+      nocache = "&nocache=" + Math.random() * 1000000;
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function()
+      {
+          if (this.readyState == 4) {
+              if (this.status == 200) {
+                  if (this.responseXML != null) {
+                      document.getElementById("temperature").innerHTML =
+                          this.responseXML.getElementsByTagName('valueTemp')[0].childNodes[0].nodeValue;
+                      document.getElementById("humidity").innerHTML =
+                          this.responseXML.getElementsByTagName('valueHum')[0].childNodes[0].nodeValue;
+                  }
+              }
+          }
+      }
+      request.open("GET", "ajax_data" + nocache, true);
+      request.send(null);
+      setTimeout('GetData()', 1000);
+  }
+  </script>
+</head>
+<body onload="GetData()">
+  <h2>Weather Status</h2>
+  <p>
+    <i class="fas fa-thermometer-half" style="color:#059e8a;"></i> 
+    <span class="dht-labels">Temperature:</span> 
+    <span id="temperature"></span>
+    <sup class="units">&deg;C</sup>
+  </p>
+  <p>
+    <i class="fas fa-tint" style="color:#00add6;"></i> 
+    <span class="dht-labels">Humidity:</span>
+    <span id="humidity"></span>
+    <sup class="units">%</sup>
+  </p>
+</body>
+</html>
