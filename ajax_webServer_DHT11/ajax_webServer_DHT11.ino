@@ -156,7 +156,7 @@ void printWifiStatus() {
   Serial.println(" dBm");
 }
 
-// send the XML file with switch statuses and analog value
+// send the XML file with humidity and temp value
 void GetData(WiFiClient cl) {
   h = dht.readHumidity();
   t = dht.readTemperature();
